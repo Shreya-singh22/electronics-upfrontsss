@@ -4,11 +4,11 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
 import TrustBadges from "@/components/TrustBadges";
-import { useStore } from "@/contexts/StoreContext";
+import { useCart } from "@/contexts/cart-context";
 import { products } from "@/data/products";
 
 export default function WishlistPage() {
-    const { wishlist } = useStore();
+    const { wishlist } = useCart();
     const wishlistProducts = products.filter(p => wishlist.includes(p.id));
 
     return (

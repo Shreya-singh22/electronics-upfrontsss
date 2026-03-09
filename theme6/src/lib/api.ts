@@ -29,7 +29,7 @@ class StorefrontAPI {
 }
 
 // React Hook used to pull and auto-update data
-export function useStoreCustomization() {
+export function useStore() {
     const [customization, setCustomization] = useState<any>(null);
 
     // 1. Fetch initial live data on load

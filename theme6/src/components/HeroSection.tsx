@@ -1,7 +1,10 @@
 import { ArrowRight, ChevronDown } from "lucide-react";
 import Link from "next/link";
+import { useStoreContext } from "@/contexts/store-context";
 
 export default function HeroSection() {
+  const { customization } = useStoreContext();
+
   const handleSectionClick = (e: React.MouseEvent) => {
     if (typeof window !== "undefined" && window.parent !== window) {
       e.stopPropagation();
@@ -9,9 +12,14 @@ export default function HeroSection() {
     }
   };
 
+  const title = customization?.heroSection?.title || "BEYOND REALITY";
+  const subtitle = customization?.heroSection?.subtitle || "Immerse yourself in next-generation technology. Crafted for those who demand ultimate performance and unparalleled aesthetics.";
+  const ctaText = customization?.heroSection?.ctaText || "Enter Store";
+  const image = customization?.heroSection?.image || "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=1200&fit=crop&bg=transparent";
+
   return (
     <section
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[#030305] pt-24 pb-16"
+      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[#030305] pt-24 pb-16 cursor-pointer"
       onClick={handleSectionClick}
     >
       {/* Deep Space Background / Glowing Orbs */}
@@ -33,20 +41,22 @@ export default function HeroSection() {
             <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary"></span>
           </span>
           <span className="text-xs md:text-sm font-bold text-white uppercase tracking-[0.2em] glow-text">
-            The Future Is Here
+            {customization?.heroSection?.badge || "The Future Is Here"}
           </span>
         </div>
 
         {/* Massive Typography */}
-        <h1 className="font-heading font-black text-6xl md:text-8xl lg:text-[120px] text-white leading-[0.9] mb-6 tracking-tighter mix-blend-plus-lighter animate-slide-in-right">
-          <span className="block drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">BEYOND</span>
-          <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-accent drop-shadow-[0_0_30px_rgba(0,243,255,0.5)]">
-            REALITY.
+        <h1 className="font-heading font-black text-5xl md:text-7xl lg:text-[100px] text-white leading-[0.9] mb-6 tracking-tighter mix-blend-plus-lighter animate-slide-in-right">
+          <span className="block drop-shadow-[0_0_15px_rgba(255,255,255,0.2)] uppercase">
+            {title.split(' ')[0]}
+          </span>
+          <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-accent drop-shadow-[0_0_30px_rgba(0,243,255,0.5)] uppercase">
+            {title.split(' ').slice(1).join(' ') || "REALITY."}
           </span>
         </h1>
 
-        <p className="text-gray-400 text-lg md:text-2xl mb-12 max-w-2xl font-light tracking-wide animate-fade-in" style={{ animationDelay: '0.2s' }}>
-          Immerse yourself in next-generation technology. Crafted for those who demand ultimate performance and unparalleled aesthetics.
+        <p className="text-gray-400 text-lg md:text-xl mb-12 max-w-2xl font-light tracking-wide animate-fade-in" style={{ animationDelay: '0.2s' }}>
+          {subtitle}
         </p>
 
         {/* Action Buttons */}
@@ -56,7 +66,7 @@ export default function HeroSection() {
             className="group relative inline-flex items-center justify-center h-16 px-10 bg-primary/10 text-white font-bold text-lg rounded-full overflow-hidden neon-border backdrop-blur-md hover:bg-primary/20 hover:scale-105 transition-all duration-300"
           >
             <span className="relative z-10 flex items-center gap-3 group-hover:glow-text">
-              Enter Store
+              {ctaText}
               <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
             </span>
           </Link>
@@ -64,7 +74,7 @@ export default function HeroSection() {
             href="/about"
             className="group inline-flex items-center justify-center h-16 px-10 text-gray-300 font-bold text-lg rounded-full hover:text-white transition-colors hover:bg-white/5"
           >
-            View Specs
+            {customization?.heroSection?.secondaryCtaText || "View Specs"}
           </Link>
         </div>
 
@@ -74,31 +84,52 @@ export default function HeroSection() {
           <div className="absolute bottom-[-10%] left-1/2 -translate-x-1/2 w-[80%] h-[40px] bg-primary/30 blur-[40px] rounded-[100%] pointer-events-none"></div>
 
           <img
-            src="https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=1200&fit=crop&bg=transparent"
-            alt="Futuristic Headphone"
+            src={image}
+            alt="Hero Visual"
             className="relative z-10 w-full h-auto object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] max-h-[500px]"
           />
 
           {/* Floating UI Elements (Tech Specs) */}
-          <div className="hidden md:flex absolute top-[20%] left-[-5%] px-5 py-3 glass-panel rounded-xl items-center gap-3 border border-primary/20 shadow-[0_0_25px_rgba(0,243,255,0.15)] animate-[bounce_6s_ease-in-out_infinite_1s]">
-            <div className="text-right">
-              <div className="text-white font-black text-lg">Spatial Audio</div>
-              <div className="text-primary text-xs uppercase tracking-widest">360° Sound</div>
+          {customization?.heroSection?.features?.map((feature: any, i: number) => (
+            <div key={i} className={`hidden md:flex absolute ${i === 0 ? 'top-[20%] left-[-5%]' : 'bottom-[30%] right-[-5%]'} px-5 py-3 glass-panel rounded-xl items-center gap-3 border border-primary/20 shadow-[0_0_25px_rgba(0,243,255,0.15)] animate-[bounce_6s_ease-in-out_infinite_${i}s]`}>
+              {i === 1 && (
+                <div className="w-12 h-12 rounded-full border border-accent/50 flex items-center justify-center bg-black/50 text-accent font-mono text-sm">
+                  <span className="animate-pulse">{feature.value || "100%"}</span>
+                </div>
+              )}
+              <div className={i === 0 ? "text-right" : "text-left"}>
+                <div className="text-white font-black text-lg">{feature.title}</div>
+                <div className="text-primary text-xs uppercase tracking-widest">{feature.desc}</div>
+              </div>
+              {i === 0 && (
+                <div className="w-12 h-12 rounded-full border border-primary/50 flex items-center justify-center bg-black/50 text-primary">
+                  <div className="w-6 h-6 bg-primary rounded-full animate-ping opacity-50"></div>
+                </div>
+              )}
             </div>
-            <div className="w-12 h-12 rounded-full border border-primary/50 flex items-center justify-center bg-black/50 text-primary">
-              <div className="w-6 h-6 bg-primary rounded-full animate-ping opacity-50"></div>
-            </div>
-          </div>
+          )) || (
+              <>
+                <div className="hidden md:flex absolute top-[20%] left-[-5%] px-5 py-3 glass-panel rounded-xl items-center gap-3 border border-primary/20 shadow-[0_0_25px_rgba(0,243,255,0.15)] animate-[bounce_6s_ease-in-out_infinite_1s]">
+                  <div className="text-right">
+                    <div className="text-white font-black text-lg">Spatial Audio</div>
+                    <div className="text-primary text-xs uppercase tracking-widest">360° Sound</div>
+                  </div>
+                  <div className="w-12 h-12 rounded-full border border-primary/50 flex items-center justify-center bg-black/50 text-primary">
+                    <div className="w-6 h-6 bg-primary rounded-full animate-ping opacity-50"></div>
+                  </div>
+                </div>
 
-          <div className="hidden md:flex absolute bottom-[30%] right-[-5%] px-5 py-3 glass-panel rounded-xl items-center gap-3 border border-accent/20 shadow-[0_0_25px_rgba(188,19,254,0.15)] animate-[bounce_7s_ease-in-out_infinite_2s]">
-            <div className="w-12 h-12 rounded-full border border-accent/50 flex items-center justify-center bg-black/50 text-accent font-mono text-sm">
-              <span className="animate-pulse">100%</span>
-            </div>
-            <div className="text-left">
-              <div className="text-white font-black text-lg">Quantum Battery</div>
-              <div className="text-accent text-xs uppercase tracking-widest">Never Stops</div>
-            </div>
-          </div>
+                <div className="hidden md:flex absolute bottom-[30%] right-[-5%] px-5 py-3 glass-panel rounded-xl items-center gap-3 border border-accent/20 shadow-[0_0_25px_rgba(188,19,254,0.15)] animate-[bounce_7s_ease-in-out_infinite_2s]">
+                  <div className="w-12 h-12 rounded-full border border-accent/50 flex items-center justify-center bg-black/50 text-accent font-mono text-sm">
+                    <span className="animate-pulse">100%</span>
+                  </div>
+                  <div className="text-left">
+                    <div className="text-white font-black text-lg">Quantum Battery</div>
+                    <div className="text-accent text-xs uppercase tracking-widest">Never Stops</div>
+                  </div>
+                </div>
+              </>
+            )}
         </div>
 
       </div>

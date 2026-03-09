@@ -4,13 +4,25 @@ import { Clock, Zap, Target } from "lucide-react";
 import Link from "next/link";
 import { products } from "@/data/products";
 import { useState, useEffect } from "react";
-import { useStore } from "@/contexts/StoreContext";
+import { useCart } from "@/contexts/cart-context";
+import { useStoreContext } from "@/contexts/store-context";
 
 export default function DealsOfDay() {
-    const { toggleWishlist, isInWishlist } = useStore();
+    const { toggleWishlist, isInWishlist } = useCart();
+    const { customization } = useStoreContext();
     const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
     const [soldPercentages, setSoldPercentages] = useState<number[]>([]);
     const dealProducts = products.filter(p => p.originalPrice).slice(0, 4);
+
+    const handleSectionClick = (e: React.MouseEvent) => {
+        if (typeof window !== "undefined" && window.parent !== window) {
+            e.stopPropagation();
+            window.parent.postMessage({ type: 'ORBIT_SECTION_CLICK', sectionId: 'dealsSection' }, '*');
+        }
+    };
+
+    const alertText = customization?.dealsSection?.alertText || "SYSTEM ALERT : PRICE DROP";
+    const title = customization?.dealsSection?.title || "CRITICAL DEALS.";
 
     useEffect(() => {
         // Generate random percentages only on the client
@@ -35,7 +47,7 @@ export default function DealsOfDay() {
     }, []);
 
     return (
-        <section className="py-24 bg-[#030305] relative overflow-hidden border-t border-red-500/10">
+        <section className="py-24 bg-[#030305] relative overflow-hidden border-t border-red-500/10 cursor-pointer" onClick={handleSectionClick}>
             {/* Warning Background Glow */}
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-600 to-transparent opacity-50"></div>
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-red-600/5 rounded-[100%] blur-[100px] pointer-events-none"></div>
@@ -48,11 +60,11 @@ export default function DealsOfDay() {
                         <div className="flex items-center gap-3 mb-2">
                             <div className="w-2 h-2 bg-red-600 animate-pulse"></div>
                             <span className="text-red-500 font-mono font-bold text-sm tracking-[0.3em] uppercase drop-shadow-[0_0_8px_rgba(220,38,38,0.8)]">
-                                SYSTEM ALERT : PRICE DROP
+                                {alertText}
                             </span>
                         </div>
                         <h2 className="font-heading font-black text-4xl md:text-5xl lg:text-6xl text-white uppercase tracking-tighter m-0 leading-none">
-                            CRITICAL <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">DEALS.</span>
+                            {title.split(' ')[0]} <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">{title.split(' ').slice(1).join(' ') || "DEALS."}</span>
                         </h2>
                     </div>
 

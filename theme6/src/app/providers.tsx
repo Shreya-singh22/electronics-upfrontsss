@@ -1,8 +1,8 @@
 "use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { CustomizationProvider } from "@/contexts/store-context";
-import { StoreProvider } from "@/contexts/StoreContext";
+import { StoreProvider } from "@/contexts/store-context";
+import { CartProvider } from "@/contexts/cart-context";
 import { ThemeProvider } from "next-themes";
 import { useState } from "react";
 
@@ -12,11 +12,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
     return (
         <QueryClientProvider client={queryClient}>
             <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-                <CustomizationProvider>
-                    <StoreProvider>
+                <StoreProvider>
+                    <CartProvider>
                         {children}
-                    </StoreProvider>
-                </CustomizationProvider>
+                    </CartProvider>
+                </StoreProvider>
             </ThemeProvider>
         </QueryClientProvider>
     );

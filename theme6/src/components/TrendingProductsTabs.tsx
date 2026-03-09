@@ -8,25 +8,38 @@ import ProductCard from "@/components/ProductCard";
 import { products } from "@/data/products";
 import { Activity } from "lucide-react";
 
+import { useStoreContext } from "@/contexts/store-context";
+
 export default function TrendingProductsTabs() {
+    const { customization } = useStoreContext();
     const [activeTab, setActiveTab] = useState("home-appliances");
 
     const homeAppliances = products.filter(p => p.category === "Appliances" || p.category === "Home");
     const electronicGadgets = products.filter(p => !homeAppliances.includes(p));
 
+    const handleSectionClick = (e: React.MouseEvent) => {
+        if (typeof window !== "undefined" && window.parent !== window) {
+            e.stopPropagation();
+            window.parent.postMessage({ type: 'ORBIT_SECTION_CLICK', sectionId: 'trendingTabs' }, '*');
+        }
+    };
+
+    const alertText = customization?.trendingTabs?.alertText || "LIVE METRICS";
+    const title = customization?.trendingTabs?.title || "TRENDING HARDWARE.";
+
     return (
-        <section className="container mx-auto px-4 py-20 md:py-32 relative z-10">
+        <section className="container mx-auto px-4 py-20 md:py-32 relative z-10 cursor-pointer" onClick={handleSectionClick}>
             {/* Header Section */}
             <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-6">
                 <div>
                     <div className="flex items-center gap-2 mb-4">
                         <Activity className="w-5 h-5 text-primary animate-pulse" />
                         <span className="text-primary font-mono font-bold text-xs tracking-widest uppercase glow-text">
-                            LIVE METRICS
+                            {alertText}
                         </span>
                     </div>
                     <h2 className="font-heading font-black text-5xl md:text-7xl text-white uppercase tracking-tighter m-0 leading-tight">
-                        TRENDING <br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">HARDWARE.</span>
+                        {title.split(' ')[0]} <br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">{title.split(' ').slice(1).join(' ') || "HARDWARE."}</span>
                     </h2>
                 </div>
             </div>

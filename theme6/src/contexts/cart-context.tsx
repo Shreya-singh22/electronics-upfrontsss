@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from "react";
 import { CartItem, Product } from "@/data/products";
 
-interface StoreContextType {
+interface CartContextType {
   cart: CartItem[];
   wishlist: string[];
   addToCart: (product: Product) => void;
@@ -20,9 +20,9 @@ interface StoreContextType {
   setIsCartOpen: (open: boolean) => void;
 }
 
-const StoreContext = createContext<StoreContextType | undefined>(undefined);
+const CartContext = createContext<CartContextType | undefined>(undefined);
 
-export function StoreProvider({ children }: { children: React.ReactNode }) {
+export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [wishlist, setWishlist] = useState<string[]>([]);
   const [favoriteCategories, setFavoriteCategories] = useState<string[]>([]);
@@ -111,7 +111,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <StoreContext.Provider
+    <CartContext.Provider
       value={{
         cart,
         wishlist,
@@ -130,12 +130,12 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       }}
     >
       {children}
-    </StoreContext.Provider>
+    </CartContext.Provider>
   );
 }
 
-export function useStore() {
-  const context = useContext(StoreContext);
-  if (!context) throw new Error("useStore must be used within StoreProvider");
+export function useCart() {
+  const context = useContext(CartContext);
+  if (!context) throw new Error("useCart must be used within CartProvider");
   return context;
 }

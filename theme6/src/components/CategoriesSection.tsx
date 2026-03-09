@@ -1,8 +1,10 @@
+"use client";
+
 import Link from "next/link";
 import { categories as defaultCategories } from "@/data/products";
 import { Heart, ArrowUpRight } from "lucide-react";
-import { useStore } from "@/contexts/StoreContext";
-import { useCustomizationContext } from "@/contexts/store-context";
+import { useCart } from "@/contexts/cart-context";
+import { useStoreContext } from "@/contexts/store-context";
 
 const categoryImages: Record<string, string> = {
   speakers: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=800&fit=crop",
@@ -16,12 +18,12 @@ const categoryImages: Record<string, string> = {
 };
 
 export default function CategoriesSection() {
-  const { toggleFavoriteCategory, isCategoryFavorite } = useStore();
-  const { customization } = useCustomizationContext();
+  const { toggleFavoriteCategory, isCategoryFavorite } = useCart();
+  const { customization } = useStoreContext();
 
   const categories = customization?.categoriesSection?.categories || defaultCategories.slice(0, 7);
-  const sectionTitle = customization?.categoriesSection?.title || "Ecosystem";
-  const sectionSubtitle = customization?.categoriesSection?.subtitle || "Explore our interconnected reality modules";
+  const title = customization?.categoriesSection?.title || "SYSTEM DIRECTORY";
+  const subtitle = customization?.categoriesSection?.subtitle || "Filter the grid by hardware classification.";
 
   const handleSectionClick = (e: React.MouseEvent) => {
     if (typeof window !== "undefined" && window.parent !== window) {
@@ -31,20 +33,16 @@ export default function CategoriesSection() {
   };
 
   return (
-    <section
-      className="py-20 md:py-32 bg-[#030305] relative overflow-hidden"
-      onClick={handleSectionClick}
-    >
-      {/* Background glow elements */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent opacity-50 mix-blend-screen pointer-events-none"></div>
-
-      <div className="container mx-auto px-4 z-10 relative">
-        <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-6 border-b border-white/10 pb-8">
-          <div className="w-full max-w-2xl">
-            <h2 className="font-heading font-black text-5xl md:text-7xl text-white uppercase tracking-tighter mb-2">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">Core</span><br /> {sectionTitle}
+    <section id="categories" className="py-24 bg-[#030305] relative overflow-hidden cursor-pointer" onClick={handleSectionClick}>
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+          <div className="max-w-2xl">
+            <h2 className="font-heading font-black text-4xl md:text-6xl text-white mb-4 tracking-tighter uppercase whitespace-nowrap glow-text">
+              {title}
             </h2>
-            <p className="text-gray-400 text-xl font-light tracking-wide">{sectionSubtitle}</p>
+            <p className="text-gray-500 font-mono text-sm uppercase tracking-widest font-bold">
+              {subtitle}
+            </p>
           </div>
           <Link href="/products" className="group flex items-center gap-3 text-sm font-bold text-white uppercase tracking-widest hover:text-primary transition-colors glass-panel px-8 py-4 rounded-full border-white/10 hover:border-primary/50 hover:shadow-[0_0_30px_rgba(0,243,255,0.2)]">
             <span>View Hub</span>

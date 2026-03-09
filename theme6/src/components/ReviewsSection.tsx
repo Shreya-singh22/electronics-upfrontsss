@@ -1,4 +1,5 @@
 import { Star, Terminal } from "lucide-react";
+import { useStoreContext } from "@/contexts/store-context";
 
 const reviews = [
     {
@@ -25,8 +26,20 @@ const reviews = [
 ];
 
 export default function ReviewsSection() {
+    const { customization } = useStoreContext();
+
+    const handleSectionClick = (e: React.MouseEvent) => {
+        if (typeof window !== "undefined" && window.parent !== window) {
+            e.stopPropagation();
+            window.parent.postMessage({ type: 'ORBIT_SECTION_CLICK', sectionId: 'reviewsSection' }, '*');
+        }
+    };
+
+    const alertText = customization?.reviewsSection?.alertText || "USER TELEMETRY DATA";
+    const title = customization?.reviewsSection?.title || "FIELD REPORTS.";
+
     return (
-        <section className="py-24 bg-[#030305] overflow-hidden relative border-t border-accent/10">
+        <section className="py-24 bg-[#030305] overflow-hidden relative border-t border-accent/10 cursor-pointer" onClick={handleSectionClick}>
             {/* Background elements */}
             <div className="absolute top-1/2 right-1/4 w-[600px] h-[600px] bg-accent/5 blur-[150px] rounded-[100%] pointer-events-none -translate-y-1/2"></div>
             <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-primary/5 blur-[150px] rounded-[100%] pointer-events-none"></div>
@@ -39,11 +52,11 @@ export default function ReviewsSection() {
                     <div className="flex items-center justify-center gap-3 mb-4">
                         <Terminal className="w-5 h-5 text-accent animate-pulse" />
                         <span className="text-accent font-mono font-bold text-xs tracking-[0.3em] uppercase drop-shadow-[0_0_8px_rgba(188,19,254,0.8)]">
-                            USER TELEMETRY DATA
+                            {alertText}
                         </span>
                     </div>
                     <h2 className="font-heading font-black text-5xl md:text-6xl text-white uppercase tracking-tighter m-0 leading-tight">
-                        FIELD <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-purple-400">REPORTS.</span>
+                        {title.split(' ')[0]} <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-purple-400">{title.split(' ').slice(1).join(' ') || "REPORTS."}</span>
                     </h2>
                 </div>
 

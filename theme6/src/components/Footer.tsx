@@ -1,11 +1,26 @@
-"use client";
-
 import { Zap, Shield, Headphones, MonitorDot, Radio, MapPin, Terminal } from "lucide-react";
 import Link from "next/link";
+import { useStoreContext } from "@/contexts/store-context";
 
 export default function Footer() {
+  const { customization } = useStoreContext();
+
+  const handleSectionClick = (e: React.MouseEvent) => {
+    if (typeof window !== "undefined" && window.parent !== window) {
+      e.stopPropagation();
+      window.parent.postMessage({ type: 'ORBIT_SECTION_CLICK', sectionId: 'footer' }, '*');
+    }
+  };
+
+  const brandName = customization?.brand?.name || "CORE";
+  const brandSuffix = "SYS";
+  const description = customization?.footer?.description || "Establishing direct neural link to the most advanced hardware supply line. Connectivity optimal.";
+
   return (
-    <footer className="bg-[#020203] border-t-2 border-primary/30 relative overflow-hidden font-mono">
+    <footer
+      className="bg-[#020203] border-t-2 border-primary/30 relative overflow-hidden font-mono cursor-pointer"
+      onClick={handleSectionClick}
+    >
       {/* Power line decorative */}
       <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent shadow-[0_0_15px_rgba(0,243,255,0.8)]"></div>
 
@@ -24,7 +39,7 @@ export default function Footer() {
                 <Zap className="w-6 h-6 text-primary relative z-10" />
               </div>
               <div className="flex flex-col">
-                <span className="font-heading font-black text-2xl text-white tracking-widest leading-none group-hover:glow-text transition-all">CORE<span className="text-primary">SYS</span></span>
+                <span className="font-heading font-black text-2xl text-white tracking-widest leading-none group-hover:glow-text transition-all uppercase">{brandName}<span className="text-primary">{brandSuffix}</span></span>
                 <span className="text-[9px] text-primary/70 font-bold uppercase tracking-[0.3em] mt-1 flex items-center gap-1">
                   <span className="w-1.5 h-1.5 bg-primary animate-pulse rounded-full"></span> Online
                 </span>
@@ -32,7 +47,7 @@ export default function Footer() {
             </Link>
 
             <p className="text-xs text-gray-500 leading-relaxed uppercase tracking-widest font-bold">
-              Establishing direct neural link to the most advanced hardware supply line. Connectivity optimal.
+              {description}
             </p>
 
             {/* Server Status Module */}
