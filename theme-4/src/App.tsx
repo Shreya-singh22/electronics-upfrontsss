@@ -3,8 +3,8 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { CustomizationProvider } from "@/contexts/store-context";
-import { StoreProvider } from "@/contexts/StoreContext";
+import { StoreProvider } from "@/contexts/store-context";
+import { CartProvider } from "@/contexts/cart-context";
 import CartDrawer from "@/components/CartDrawer";
 import Index from "./pages/Index";
 import Products from "./pages/Products";
@@ -18,8 +18,8 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <CustomizationProvider>
-        <StoreProvider>
+      <StoreProvider>
+        <CartProvider>
           <Toaster />
           <Sonner />
           <CartDrawer />
@@ -33,8 +33,8 @@ const App = () => (
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
-        </StoreProvider>
-      </CustomizationProvider>
+        </CartProvider>
+      </StoreProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

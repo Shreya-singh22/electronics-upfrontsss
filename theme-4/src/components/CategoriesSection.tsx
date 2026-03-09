@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { categories as defaultCategories } from "@/data/products";
 import { Heart } from "lucide-react";
-import { useStore } from "@/contexts/StoreContext";
-import { useCustomizationContext } from "@/contexts/store-context";
+import { useCart } from "@/contexts/cart-context";
+import { useStoreContext } from "@/contexts/store-context";
 
 const categoryImages: Record<string, string> = {
   speakers: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=600&h=800&fit=crop",
@@ -16,8 +16,8 @@ const categoryImages: Record<string, string> = {
 };
 
 export default function CategoriesSection() {
-  const { toggleFavoriteCategory, isCategoryFavorite } = useStore();
-  const { customization } = useCustomizationContext();
+  const { toggleFavoriteCategory, isCategoryFavorite } = useCart();
+  const { customization } = useStoreContext();
 
   const categories = customization?.categoriesSection?.categories || defaultCategories.slice(0, 8);
   const sectionTitle = customization?.categoriesSection?.title || "Top Categories";

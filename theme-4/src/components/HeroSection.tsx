@@ -1,10 +1,10 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useCustomizationContext } from "@/contexts/store-context";
+import { useStoreContext } from "@/contexts/store-context";
 
 export default function HeroSection() {
-  const { customization } = useCustomizationContext();
+  const { customization } = useStoreContext();
   const [activeSlide, setActiveSlide] = useState(0);
   const [timeLeft, setTimeLeft] = useState({ hours: 12, minutes: 45, seconds: 30 });
 

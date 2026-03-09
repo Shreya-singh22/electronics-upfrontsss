@@ -2,12 +2,12 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
 import { products } from "@/data/products";
-import { useStore } from "@/contexts/StoreContext";
+import { useCart } from "@/contexts/cart-context";
 import { Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function WishlistPage() {
-  const { wishlist } = useStore();
+  const { wishlist } = useCart();
   const wishlistProducts = products.filter((p) => wishlist.includes(p.id));
 
   return (

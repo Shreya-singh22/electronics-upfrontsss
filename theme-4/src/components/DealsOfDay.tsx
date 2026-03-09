@@ -2,19 +2,54 @@ import { Clock, Zap, Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { products } from "@/data/products";
 import { useState, useEffect } from "react";
-import { useStore } from "@/contexts/StoreContext";
+import { useCart } from "@/contexts/cart-context";
+import { useStoreContext } from "@/contexts/store-context";
 
 export default function DealsOfDay() {
-    const { toggleWishlist, isInWishlist } = useStore();
+    const { toggleWishlist, isInWishlist } = useCart();
+    const { customization } = useStoreContext();
     const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
     const dealProducts = products.filter(p => p.originalPrice).slice(0, 4);
+
+    const sectionTitle = customization?.dealsOfDay?.title || "Special Deals of the Week";
+    const sectionSubtitle = customization?.dealsOfDay?.subtitle || "Limited time offer - grab your favorite gadgets before they're gone!";
+
+    const handleSectionClick = (e: React.MouseEvent) => {
+        if (typeof window !== "undefined" && window.parent !== window) {
+            e.stopPropagation();
+            window.parent.postMessage({ type: 'ORBIT_SECTION_CLICK', sectionId: 'dealsOfDay' }, '*');
+        }
+    };
 
     // ... (keep useEffect code)
 
     return (
-        <section className="py-20 bg-background overflow-hidden">
+        <section className="py-20 bg-background overflow-hidden" onClick={handleSectionClick}>
             <div className="container mx-auto px-4">
-                {/* ... (keep header code) */}
+                <div className="flex flex-col md:flex-row items-center md:items-end justify-between mb-12 gap-6">
+                    <div className="text-center md:text-left">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-4">
+                            <Zap className="w-3 h-3 text-primary" />
+                            <span className="text-[10px] font-bold text-primary uppercase tracking-widest">Flash Sale</span>
+                        </div>
+                        <h2 className="font-heading font-black text-3xl md:text-4xl lg:text-5xl text-foreground mb-4">{sectionTitle}</h2>
+                        <p className="text-muted-foreground max-w-xl">{sectionSubtitle}</p>
+                    </div>
+
+                    <div className="flex items-center gap-4">
+                        <div className="w-16 h-16 rounded-2xl bg-secondary flex items-center justify-center">
+                            <Clock className="w-8 h-8 text-primary" />
+                        </div>
+                        <div className="flex gap-4">
+                            {Object.entries(timeLeft).map(([unit, value]) => (
+                                <div key={unit} className="text-center">
+                                    <div className="text-2xl font-black text-foreground tabular-nums">{value.toString().padStart(2, '0')}</div>
+                                    <div className="text-[8px] font-black uppercase tracking-widest text-muted-foreground">{unit}</div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     {dealProducts.map((p) => {
@@ -34,8 +69,14 @@ export default function DealsOfDay() {
                                         <span className="text-sm text-muted-foreground line-through opacity-50">₹{p.originalPrice!.toLocaleString()}</span>
                                     </div>
 
-                                    <div className="space-y-2">
-                                        {/* ... progress bar code */}
+                                    <div className="space-y-4">
+                                        <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest mb-1">
+                                            <span className="text-muted-foreground">Available: 12</span>
+                                            <span className="text-primary">Sold: 48</span>
+                                        </div>
+                                        <div className="h-1.5 w-full bg-secondary rounded-full overflow-hidden">
+                                            <div className="h-full bg-primary rounded-full transition-all duration-1000" style={{ width: '80%' }} />
+                                        </div>
                                     </div>
                                 </Link>
                                 <button
