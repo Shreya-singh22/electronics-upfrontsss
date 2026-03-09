@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ShoppingCart, Heart, Search, Menu, X, Zap } from "lucide-react";
 import { useStore } from "@/lib/store-context";
+import { useStoreContext } from "@/contexts/store-context";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface NavbarProps {
@@ -14,8 +15,11 @@ interface NavbarProps {
 
 const Navbar = ({ onCartOpen, onWishlistOpen, searchQuery, onSearchChange }: NavbarProps) => {
   const { cartCount, wishlist } = useStore();
+  const { customization } = useStoreContext();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [cartShake, setCartShake] = useState(false);
+
+  const brandName = customization?.navbar?.brandName || "VoltTech";
 
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -28,16 +32,24 @@ const Navbar = ({ onCartOpen, onWishlistOpen, searchQuery, onSearchChange }: Nav
     onCartOpen();
   };
 
+  const handleLogoClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (typeof window !== "undefined" && window.parent !== window) {
+      window.parent.postMessage({ type: 'ORBIT_SECTION_CLICK', sectionId: 'navbar' }, '*');
+    }
+    scrollTo("hero");
+  };
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 glass">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between gap-4">
         {/* Logo */}
-        <button onClick={() => scrollTo("hero")} className="flex items-center gap-2 shrink-0 group">
+        <button onClick={handleLogoClick} className="flex items-center gap-2 shrink-0 group">
           <div className="relative">
             <Zap className="h-7 w-7 text-primary transition-transform group-hover:scale-110" />
             <div className="absolute inset-0 bg-primary/20 blur-lg rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
           </div>
-          <span className="font-display text-xl font-bold text-foreground tracking-tight">VoltTech</span>
+          <span className="font-display text-xl font-bold text-foreground tracking-tight">{brandName}</span>
         </button>
 
         {/* Search */}

@@ -4,13 +4,18 @@ import { useState, useMemo } from "react";
 import { products, categories } from "@/lib/products";
 import ProductCard from "./ProductCard";
 import { motion } from "framer-motion";
+import { useStoreContext } from "@/contexts/store-context";
 
 interface ProductsSectionProps {
   searchQuery: string;
 }
 
 const ProductsSection = ({ searchQuery }: ProductsSectionProps) => {
+  const { customization } = useStoreContext();
   const [activeCategory, setActiveCategory] = useState("All");
+
+  const title = customization?.productsSection?.title || "Featured Products";
+  const subtitle = customization?.productsSection?.subtitle || "Curated selection of the best tech gear, handpicked for you.";
 
   const filtered = useMemo(() => {
     return products.filter((p) => {
@@ -21,14 +26,25 @@ const ProductsSection = ({ searchQuery }: ProductsSectionProps) => {
     });
   }, [activeCategory, searchQuery]);
 
+  const handleSectionClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (typeof window !== "undefined" && window.parent !== window) {
+      window.parent.postMessage({ type: 'ORBIT_SECTION_CLICK', sectionId: 'productsSection' }, '*');
+    }
+  };
+
   return (
-    <section id="products" className="py-20">
+    <section id="products" onClick={handleSectionClick} className="py-20 cursor-pointer">
       <div className="container mx-auto px-4">
         <h2 className="font-display text-3xl md:text-4xl font-bold text-center mb-3">
-          Featured <span className="text-gradient">Products</span>
+          {title.includes(' ') ? (
+            <>
+              {title.split(' ')[0]} <span className="text-gradient">{title.split(' ').slice(1).join(' ')}</span>
+            </>
+          ) : title}
         </h2>
         <p className="text-muted-foreground text-center mb-10 max-w-md mx-auto">
-          Curated selection of the best tech gear, handpicked for you.
+          {subtitle}
         </p>
 
         {/* Category Filters */}
@@ -38,11 +54,10 @@ const ProductsSection = ({ searchQuery }: ProductsSectionProps) => {
               key={cat}
               onClick={() => setActiveCategory(cat)}
               whileTap={{ scale: 0.95 }}
-              className={`filter-pill ${
-                activeCategory === cat
+              className={`filter-pill ${activeCategory === cat
                   ? "bg-primary text-primary-foreground filter-pill-active"
                   : "bg-secondary/80 text-secondary-foreground hover:text-foreground"
-              }`}
+                }`}
             >
               {cat}
             </motion.button>

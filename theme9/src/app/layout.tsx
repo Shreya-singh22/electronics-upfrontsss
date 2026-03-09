@@ -4,7 +4,8 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { StoreProvider } from "@/lib/store-context";
+import { StoreProvider as CartProvider } from "@/lib/store-context";
+import { StoreProvider as OrbitProvider } from "@/contexts/store-context";
 import { QueryProvider } from "@/components/QueryProvider";
 
 const inter = Inter({
@@ -32,11 +33,13 @@ export default function RootLayout({
             <body className={`${inter.variable} ${spaceGrotesk.variable} antialiased`} suppressHydrationWarning>
                 <QueryProvider>
                     <TooltipProvider>
-                        <StoreProvider>
-                            {children}
-                            <Toaster />
-                            <Sonner />
-                        </StoreProvider>
+                        <OrbitProvider>
+                            <CartProvider>
+                                {children}
+                                <Toaster />
+                                <Sonner />
+                            </CartProvider>
+                        </OrbitProvider>
                     </TooltipProvider>
                 </QueryProvider>
             </body>

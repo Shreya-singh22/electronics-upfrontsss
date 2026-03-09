@@ -3,10 +3,21 @@
 import { useRef } from "react";
 import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
+import { useStoreContext } from "@/contexts/store-context";
 import heroDevices from "@/assets/hero-devices.png";
 
 const HeroSection = () => {
+  const { customization } = useStoreContext();
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Dynamic values with fallbacks
+  const badgeText = customization?.heroSection?.badge || "New Arrivals — Up to 30% Off";
+  const titleText = customization?.heroSection?.title || "Next-Gen Tech, Delivered to You";
+  const descriptionText = customization?.heroSection?.description || "Discover the latest electronics from top brands. Premium quality, unbeatable prices, fast shipping.";
+  const primaryButtonText = customization?.heroSection?.primaryButtonText || "Shop Now";
+  const secondaryButtonText = customization?.heroSection?.secondaryButtonText || "Browse Products";
+  const heroImage = customization?.heroSection?.image || heroDevices.src;
+
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
@@ -23,12 +34,20 @@ const HeroSection = () => {
     mouseY.set((e.clientY - rect.top) / rect.height - 0.5);
   };
 
+  const handleSectionClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (typeof window !== "undefined" && window.parent !== window) {
+      window.parent.postMessage({ type: 'ORBIT_SECTION_CLICK', sectionId: 'heroSection' }, '*');
+    }
+  };
+
   return (
     <section
       id="hero"
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="relative min-h-screen flex items-center bg-gradient-hero overflow-hidden"
+      onClick={handleSectionClick}
+      className="relative min-h-screen flex items-center bg-gradient-hero overflow-hidden cursor-pointer"
     >
       {/* Animated glow orbs */}
       <motion.div
@@ -52,7 +71,7 @@ const HeroSection = () => {
               className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-8"
             >
               <Sparkles className="h-4 w-4" />
-              New Arrivals — Up to 30% Off
+              {badgeText}
             </motion.div>
 
             <motion.h1
@@ -61,8 +80,12 @@ const HeroSection = () => {
               transition={{ duration: 0.7, delay: 0.1 }}
               className="font-display text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.05] mb-6"
             >
-              Next-Gen Tech,{" "}
-              <span className="text-gradient">Delivered</span> to You
+              {titleText.includes(',') ? (
+                <>
+                  {titleText.split(',')[0]},{" "}
+                  <span className="text-gradient">{titleText.split(',')[1]}</span>
+                </>
+              ) : titleText}
             </motion.h1>
 
             <motion.p
@@ -71,7 +94,7 @@ const HeroSection = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-lg md:text-xl text-muted-foreground mb-10 max-w-lg"
             >
-              Discover the latest electronics from top brands. Premium quality, unbeatable prices, fast shipping.
+              {descriptionText}
             </motion.p>
 
             <motion.div
@@ -81,17 +104,23 @@ const HeroSection = () => {
               className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
             >
               <button
-                onClick={() => document.getElementById("products")?.scrollIntoView({ behavior: "smooth" })}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  document.getElementById("products")?.scrollIntoView({ behavior: "smooth" });
+                }}
                 className="btn-glow inline-flex items-center justify-center gap-2 px-10 py-4 rounded-xl bg-gradient-primary text-primary-foreground font-semibold text-lg shadow-glow"
               >
-                Shop Now
+                {primaryButtonText}
                 <ArrowRight className="h-5 w-5" />
               </button>
               <button
-                onClick={() => document.getElementById("features")?.scrollIntoView({ behavior: "smooth" })}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  document.getElementById("features")?.scrollIntoView({ behavior: "smooth" });
+                }}
                 className="inline-flex items-center justify-center gap-2 px-10 py-4 rounded-xl bg-secondary text-secondary-foreground font-semibold text-lg border border-border hover:border-primary/30 hover:bg-muted transition-all"
               >
-                Browse Products
+                {secondaryButtonText}
               </button>
             </motion.div>
           </div>
@@ -116,8 +145,8 @@ const HeroSection = () => {
 
             {/* Floating product image */}
             <motion.img
-              src={heroDevices.src}
-              alt="Premium electronics - laptop and headphones"
+              src={heroImage}
+              alt="Premium electronics"
               className="relative z-10 w-full max-w-lg drop-shadow-2xl"
               style={{ x: imgX, y: imgY }}
               animate={{ y: [0, -16, 0] }}
