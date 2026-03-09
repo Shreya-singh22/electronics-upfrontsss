@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { categories as defaultCategories } from "@/data/products";
-import { useCustomizationContext } from "@/contexts/store-context";
+import { useStoreContext } from "@/contexts/store-context";
 
 const categoryImages: Record<string, string> = {
   speakers: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&h=400&fit=crop",
@@ -25,7 +25,7 @@ const pastelBackgrounds = [
 ];
 
 export default function CategoriesSection() {
-  const { customization } = useCustomizationContext();
+  const { customization } = useStoreContext();
 
   const categories = customization?.categoriesSection?.categories || defaultCategories.slice(0, 6);
 

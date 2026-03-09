@@ -1,0 +1,26 @@
+1:"$Sreact.fragment"
+2:I[96923,["/_next/static/chunks/9eec0d30a9dd5d8b.js","/_next/static/chunks/c578e37453e585f2.js"],"Providers"]
+3:I[70119,["/_next/static/chunks/9eec0d30a9dd5d8b.js","/_next/static/chunks/c578e37453e585f2.js"],"default"]
+4:I[28587,["/_next/static/chunks/9eec0d30a9dd5d8b.js","/_next/static/chunks/c578e37453e585f2.js"],"default"]
+5:I[39756,["/_next/static/chunks/ff1a16fafef87110.js","/_next/static/chunks/694836347d1e5ef3.js"],"default"]
+6:I[37457,["/_next/static/chunks/ff1a16fafef87110.js","/_next/static/chunks/694836347d1e5ef3.js"],"default"]
+7:I[36768,["/_next/static/chunks/9eec0d30a9dd5d8b.js","/_next/static/chunks/c578e37453e585f2.js","/_next/static/chunks/f9a6df058b97ca9a.js"],"default"]
+8:I[56691,["/_next/static/chunks/9eec0d30a9dd5d8b.js","/_next/static/chunks/c578e37453e585f2.js"],"default"]
+9:I[34863,["/_next/static/chunks/9eec0d30a9dd5d8b.js","/_next/static/chunks/c578e37453e585f2.js"],"Toaster"]
+a:I[3484,["/_next/static/chunks/9eec0d30a9dd5d8b.js","/_next/static/chunks/c578e37453e585f2.js"],"Toaster"]
+b:I[47257,["/_next/static/chunks/ff1a16fafef87110.js","/_next/static/chunks/694836347d1e5ef3.js"],"ClientPageRoot"]
+c:I[31713,["/_next/static/chunks/9eec0d30a9dd5d8b.js","/_next/static/chunks/c578e37453e585f2.js","/_next/static/chunks/45b362962418aca6.js"],"default"]
+f:I[97367,["/_next/static/chunks/ff1a16fafef87110.js","/_next/static/chunks/694836347d1e5ef3.js"],"OutletBoundary"]
+10:"$Sreact.suspense"
+12:I[97367,["/_next/static/chunks/ff1a16fafef87110.js","/_next/static/chunks/694836347d1e5ef3.js"],"ViewportBoundary"]
+14:I[97367,["/_next/static/chunks/ff1a16fafef87110.js","/_next/static/chunks/694836347d1e5ef3.js"],"MetadataBoundary"]
+16:I[68027,["/_next/static/chunks/ff1a16fafef87110.js","/_next/static/chunks/694836347d1e5ef3.js"],"default"]
+:HL["/_next/static/chunks/be48c9f4d1bf8986.css","style"]
+:HL["/_next/static/media/0c89a48fa5027cee-s.p.4564287c.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+0:{"P":null,"b":"6nhME1Lb1wPRR_DNjmBx5","c":["",""],"q":"","i":false,"f":[[["",{"children":["__PAGE__",{}]},"$undefined","$undefined",true],[["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/be48c9f4d1bf8986.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","script","script-0",{"src":"/_next/static/chunks/9eec0d30a9dd5d8b.js","async":true,"nonce":"$undefined"}],["$","script","script-1",{"src":"/_next/static/chunks/c578e37453e585f2.js","async":true,"nonce":"$undefined"}]],["$","html",null,{"lang":"en","suppressHydrationWarning":true,"children":["$","body",null,{"className":"inter_ea55aed0-module__KujYLq__variable space_grotesk_15ec9c7f-module__6g4iua__variable antialiased min-h-screen flex flex-col w-full overflow-x-hidden relative","children":["$","$L2",null,{"children":[["$","$L3",null,{}],["$","$L4",null,{}],["$","main",null,{"className":"flex-1","children":["$","$L5",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L6",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[["$","$L7",null,{}],[]],"forbidden":"$undefined","unauthorized":"$undefined"}]}],["$","$L8",null,{}],["$","$L9",null,{}],["$","$La",null,{}]]}]}]}]]}],{"children":[["$","$1","c",{"children":[["$","$Lb",null,{"Component":"$c","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@d","$@e"]}}],[["$","script","script-0",{"src":"/_next/static/chunks/45b362962418aca6.js","async":true,"nonce":"$undefined"}]],["$","$Lf",null,{"children":["$","$10",null,{"name":"Next.MetadataOutlet","children":"$@11"}]}]]}],{},null,false,false]},null,false,false],["$","$1","h",{"children":[null,["$","$L12",null,{"children":"$L13"}],["$","div",null,{"hidden":true,"children":["$","$L14",null,{"children":["$","$10",null,{"name":"Next.Metadata","children":"$L15"}]}]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],false]],"m":"$undefined","G":["$16",[]],"S":true}
+d:{}
+e:"$0:f:0:1:1:children:0:props:children:0:props:serverProvidedParams:params"
+13:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]
+11:null
+15:[["$","title","0",{"children":"Cedar Electronics Dashboard"}],["$","meta","1",{"name":"description","content":"Next gen electronics store"}]]

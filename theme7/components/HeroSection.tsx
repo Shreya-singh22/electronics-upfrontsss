@@ -2,10 +2,10 @@
 
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { useCustomizationContext } from "@/contexts/store-context";
+import { useStoreContext } from "@/contexts/store-context";
 
 export default function HeroSection() {
-  const { customization } = useCustomizationContext();
+  const { customization } = useStoreContext();
 
   const handleSectionClick = (e: React.MouseEvent) => {
     if (typeof window !== "undefined" && window.parent !== window) {
@@ -13,6 +13,11 @@ export default function HeroSection() {
       window.parent.postMessage({ type: 'ORBIT_SECTION_CLICK', sectionId: 'heroSection' }, '*');
     }
   };
+
+  const title = customization?.heroSection?.title || "Choose Your Latest Electronics Products";
+  const subtitle = customization?.heroSection?.description || "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tellus suspendisse morbi arcu adipiscing nunc. Amet, cras tempus netus libero.";
+  const mainImage = customization?.heroSection?.image || "https://images.unsplash.com/photo-1498049794561-7780e7231661?w=800&auto=format&fit=crop";
+  const primaryButtonText = customization?.heroSection?.primaryButtonText || "Explore more";
 
   return (
     <section
@@ -25,19 +30,24 @@ export default function HeroSection() {
           {/* Left Column - Text Content */}
           <div className="flex-1 max-w-2xl text-center lg:text-left">
             <h1 className="font-heading font-black text-4xl sm:text-5xl md:text-6xl text-white leading-[1.2] mb-6">
-              Choose Your Latest <br />
-              <span className="text-primary">Electronics</span> Products
+              {title.includes('Electronics') ? (
+                <>
+                  {title.split('Electronics')[0]}
+                  <span className="text-primary">Electronics</span>
+                  {title.split('Electronics')[1]}
+                </>
+              ) : title}
             </h1>
 
             <p className="text-white/70 text-base md:text-lg mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tellus suspendisse morbi arcu adipiscing nunc. Amet, cras tempus netus libero.
+              {subtitle}
             </p>
 
             <Link
               href="/products"
               className="inline-flex items-center justify-center gap-2 h-12 md:h-14 px-8 rounded-lg bg-primary text-white font-bold text-base md:text-lg hover:bg-primary/90 transition-colors shadow-lg hover:shadow-primary/30"
             >
-              Explore more
+              {primaryButtonText}
             </Link>
           </div>
 
@@ -47,7 +57,7 @@ export default function HeroSection() {
               {/* Main Image */}
               <div className="absolute inset-0 bg-gradient-to-tr from-white/5 to-white/10 rounded-2xl p-4 backdrop-blur-sm border border-white/10 shadow-2xl transform lg:rotate-2 transition-transform hover:rotate-0 duration-500">
                 <img
-                  src="https://images.unsplash.com/photo-1498049794561-7780e7231661?w=800&auto=format&fit=crop"
+                  src={mainImage}
                   alt="Electronics Collection"
                   className="w-full h-full object-cover rounded-xl"
                 />

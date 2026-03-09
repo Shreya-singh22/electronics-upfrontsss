@@ -5,11 +5,23 @@ import Link from "next/link";
 import { products } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
 
+import { useStoreContext } from "@/contexts/store-context";
+
 export default function DealsOfDay() {
+    const { customization } = useStoreContext();
+    const handleSectionClick = (e: React.MouseEvent) => {
+        if (typeof window !== "undefined" && window.parent !== window) {
+            e.stopPropagation();
+            window.parent.postMessage({ type: 'ORBIT_SECTION_CLICK', sectionId: 'dealsOfDay' }, '*');
+        }
+    };
+
+    const title = customization?.dealsOfDay?.title || "Deals of the Day";
+    const subtitle = customization?.dealsOfDay?.subtitle || "Don't miss out on these amazing offers";
     const dealProducts = products.filter(p => p.originalPrice).slice(0, 4);
 
     return (
-        <section className="py-16 bg-gray-50/50">
+        <section onClick={handleSectionClick} className="py-16 bg-gray-50/50 cursor-pointer">
             <div className="container mx-auto px-4">
                 <div className="flex flex-col md:flex-row items-center justify-between mb-8 md:mb-10 gap-4">
                     <div className="flex items-center gap-3">
@@ -17,8 +29,8 @@ export default function DealsOfDay() {
                             <Flame className="w-5 h-5 md:w-6 md:h-6" />
                         </div>
                         <div>
-                            <h2 className="font-heading font-black text-2xl md:text-3xl text-gray-900">Deals of the Day</h2>
-                            <p className="text-sm md:text-base text-gray-500 mt-1">Don't miss out on these amazing offers</p>
+                            <h2 className="font-heading font-black text-2xl md:text-3xl text-gray-900">{title}</h2>
+                            <p className="text-sm md:text-base text-gray-500 mt-1">{subtitle}</p>
                         </div>
                     </div>
 

@@ -10,9 +10,24 @@ const features = [
   { icon: Headphones, title: "24/7 Support", desc: "Dedicated help center" },
 ];
 
+import { useStoreContext } from "@/contexts/store-context";
+
 export default function Footer() {
+  const { customization } = useStoreContext();
+
+  const brandName = customization?.footer?.brandName || "Cedar";
+  const brandDescription = customization?.footer?.brandDescription || "Your destination for the most advanced gadgets and electronics. We set the pulse of modern technology.";
+  const brandLogo = customization?.brand?.logo || "/logo.png";
+
+  const handleSectionClick = (e: React.MouseEvent) => {
+    if (typeof window !== "undefined" && window.parent !== window) {
+      e.stopPropagation();
+      window.parent.postMessage({ type: 'ORBIT_SECTION_CLICK', sectionId: 'footer' }, '*');
+    }
+  };
+
   return (
-    <footer className="bg-brand-dark text-white pt-16">
+    <footer onClick={handleSectionClick} className="bg-brand-dark text-white pt-16 cursor-pointer">
       <div className="container mx-auto px-4">
         {/* Features Bar */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pb-16 border-b border-white/10">
@@ -34,15 +49,15 @@ export default function Footer() {
           <div className="space-y-6 lg:pr-8">
             <Link href="/" className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl overflow-hidden bg-white flex items-center justify-center">
-                <img src="/logo.png" alt="Logo" className="w-8 h-8 object-cover" />
+                <img src={brandLogo} alt={`${brandName} Logo`} className="w-8 h-8 object-cover" />
               </div>
               <div className="flex flex-col">
-                <span className="font-heading font-black text-xl tracking-tight text-white">Cedar</span>
+                <span className="font-heading font-black text-xl tracking-tight text-white">{brandName}</span>
                 <span className="text-[10px] text-primary font-bold uppercase tracking-widest leading-none">Electronics</span>
               </div>
             </Link>
             <p className="text-white/60 text-sm leading-relaxed">
-              Your destination for the most advanced gadgets and electronics. We set the pulse of modern technology.
+              {brandDescription}
             </p>
           </div>
 

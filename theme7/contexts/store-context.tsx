@@ -1,21 +1,20 @@
 "use client";
-
 import { createContext, useContext, ReactNode } from 'react';
-import { useStoreCustomization } from '../lib/api';
+import { useStore } from '../lib/api';
 
-const CustomizationContext = createContext<any>(undefined);
+const StoreContext = createContext<any>(undefined);
 
-export function CustomizationProvider({ children }: { children: ReactNode }) {
-    const storeData = useStoreCustomization();
+export function StoreProvider({ children }: { children: ReactNode }) {
+    const storeData = useStore();
     return (
-        <CustomizationContext.Provider value={storeData}>
+        <StoreContext.Provider value={storeData}>
             {children}
-        </CustomizationContext.Provider>
+        </StoreContext.Provider>
     );
 }
 
-export function useCustomizationContext() {
-    const context = useContext(CustomizationContext);
-    if (context === undefined) throw new Error('useCustomizationContext must be used within a CustomizationProvider');
+export function useStoreContext() {
+    const context = useContext(StoreContext);
+    if (context === undefined) throw new Error('useStoreContext must be used within a StoreProvider');
     return context;
 }

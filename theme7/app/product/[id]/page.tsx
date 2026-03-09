@@ -8,14 +8,14 @@ import { Star, Heart, ShoppingCart, ArrowLeft, Truck, Calendar, CheckCircle2 } f
 import ProductCard from "@/components/ProductCard";
 import TrustBadges from "@/components/TrustBadges";
 import { products } from "@/data/products";
-import { useStore } from "@/contexts/StoreContext";
-import { useCustomizationContext } from "@/contexts/store-context";
+import { useCart } from "@/contexts/cart-context";
+import { useStoreContext } from "@/contexts/store-context";
 
 export default function ProductDetail() {
-  const { customization } = useCustomizationContext();
+  const { customization } = useStoreContext();
   const { id } = useParams();
   const product = products.find((p) => p.id === id);
-  const { addToCart, toggleWishlist, isInWishlist } = useStore();
+  const { addToCart, toggleWishlist, isInWishlist } = useCart();
   const [selectedImage, setSelectedImage] = useState(0);
 
   if (!product) {
