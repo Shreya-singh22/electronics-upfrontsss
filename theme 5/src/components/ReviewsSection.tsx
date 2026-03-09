@@ -1,4 +1,5 @@
 import { Star, Quote } from "lucide-react";
+import { useStoreContext } from "@/contexts/store-context";
 
 const reviews = [
     {
@@ -25,8 +26,20 @@ const reviews = [
 ];
 
 export default function ReviewsSection() {
+    const { customization } = useStoreContext();
+
+    const handleSectionClick = (e: React.MouseEvent) => {
+        if (typeof window !== "undefined" && window.parent !== window) {
+            e.stopPropagation();
+            window.parent.postMessage({ type: 'ORBIT_SECTION_CLICK', sectionId: 'reviewsSection' }, '*');
+        }
+    };
+
+    const sectionTitle = customization?.reviewsSection?.title || "What Our Users Say";
+    const sectionSubtitle = customization?.reviewsSection?.subtitle || "\"Because your reality deserves an upgrade.\"";
+
     return (
-        <section className="py-24 bg-[#050505] overflow-hidden relative">
+        <section className="py-24 bg-[#050505] overflow-hidden relative cursor-pointer" onClick={handleSectionClick}>
             <div className="absolute top-0 right-0 p-20 opacity-[0.03] text-purple-500">
                 <Quote className="w-80 h-80 rotate-180" />
             </div>
@@ -38,10 +51,10 @@ export default function ReviewsSection() {
                 <div className="text-center max-w-3xl mx-auto mb-20 relative">
                     <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-transparent via-purple-500 to-transparent"></div>
                     <h2 className="font-heading font-black text-4xl md:text-6xl text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400 mb-6 drop-shadow-[0_0_15px_rgba(168,85,247,0.3)]">
-                        What Our Users Say
+                        {sectionTitle}
                     </h2>
                     <p className="text-gray-400 text-lg md:text-xl italic font-light tracking-wide">
-                        "Because your reality deserves an upgrade."
+                        {sectionSubtitle}
                     </p>
                 </div>
 

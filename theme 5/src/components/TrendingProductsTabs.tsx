@@ -2,8 +2,23 @@ import { useState } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import ProductCard from "@/components/ProductCard";
 import { products } from "@/data/products";
+import { useStoreContext } from "@/contexts/store-context";
 
 export default function TrendingProductsTabs() {
+    const { customization } = useStoreContext();
+
+    const handleSectionClick = (e: React.MouseEvent) => {
+        if (typeof window !== "undefined" && window.parent !== window) {
+            e.stopPropagation();
+            window.parent.postMessage({ type: 'ORBIT_SECTION_CLICK', sectionId: 'trendingProductsTabs' }, '*');
+        }
+    };
+
+    const sectionBadge = customization?.trendingProductsTabs?.badge || "NEW COLLECTION";
+    const sectionTitle = customization?.trendingProductsTabs?.title || "TRENDING PRODUCTS";
+    const tab1Title = customization?.trendingProductsTabs?.tab1Title || "HOME APPLIANCES";
+    const tab2Title = customization?.trendingProductsTabs?.tab2Title || "ELECTRONIC GADGETS";
+
     const [activeTab, setActiveTab] = useState("home-appliances");
 
     // For demonstration, we'll just split existing products into two categories or 
@@ -12,17 +27,17 @@ export default function TrendingProductsTabs() {
     const electronicGadgets = products.filter(p => !homeAppliances.includes(p));
 
     return (
-        <section className="container mx-auto px-4 py-12 text-center">
+        <section className="container mx-auto px-4 py-12 text-center cursor-pointer" onClick={handleSectionClick}>
             <div className="mb-2">
                 <span className="text-[#3b82f6] font-medium text-[13px] tracking-[0.1em] uppercase">
-                    NEW COLLECTION
+                    {sectionBadge}
                 </span>
             </div>
 
             <div className="flex flex-col items-center justify-center mb-10">
                 <div className="relative inline-block mt-2">
                     <h2 className="font-heading font-extrabold text-[32px] md:text-[36px] text-[#222] m-0 uppercase relative z-10 px-2 leading-tight">
-                        TRENDING PRODUCTS
+                        {sectionTitle}
                     </h2>
                     <div className="absolute bottom-1 left-[-15px] right-[-15px] h-[4px] bg-[#bfdbfe] z-[-1]"></div>
                 </div>
@@ -34,13 +49,13 @@ export default function TrendingProductsTabs() {
                         value="home-appliances"
                         className="data-[state=active]:text-[#3b82f6] data-[state=active]:border-b-[3px] data-[state=active]:border-[#3b82f6] data-[state=active]:bg-transparent rounded-none px-0 pb-2 text-[14px] md:text-[15px] font-bold uppercase text-[#777] hover:text-[#222] transition-colors shadow-none border-b-[3px] border-transparent"
                     >
-                        HOME APPLIANCES
+                        {tab1Title}
                     </TabsTrigger>
                     <TabsTrigger
                         value="electronic-gadgets"
                         className="data-[state=active]:text-[#3b82f6] data-[state=active]:border-b-[3px] data-[state=active]:border-[#3b82f6] data-[state=active]:bg-transparent rounded-none px-0 pb-2 text-[14px] md:text-[15px] font-bold uppercase text-[#777] hover:text-[#222] transition-colors shadow-none border-b-[3px] border-transparent"
                     >
-                        ELECTRONIC GADGETS
+                        {tab2Title}
                     </TabsTrigger>
                 </TabsList>
 

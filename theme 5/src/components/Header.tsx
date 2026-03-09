@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { Search, ShoppingCart, Heart, Menu, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { useStore } from "@/contexts/StoreContext";
-import { useCustomizationContext } from "@/contexts/store-context";
+import { useCart } from "@/contexts/cart-context";
+import { useStoreContext } from "@/contexts/store-context";
 
 export default function Header() {
-  const { customization } = useCustomizationContext();
+  const { customization } = useStoreContext();
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { cartCount, setIsCartOpen, wishlist } = useStore();
+  const { cartCount, setIsCartOpen, wishlist } = useCart();
   const navigate = useNavigate();
 
   const handleSearch = (e: React.FormEvent) => {

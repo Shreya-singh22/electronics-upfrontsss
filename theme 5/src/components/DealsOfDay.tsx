@@ -2,10 +2,22 @@ import { Clock, Zap, Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { products } from "@/data/products";
 import { useState, useEffect } from "react";
-import { useStore } from "@/contexts/StoreContext";
+import { useCart } from "@/contexts/cart-context";
+import { useStoreContext } from "@/contexts/store-context";
 
 export default function DealsOfDay() {
-    const { toggleWishlist, isInWishlist } = useStore();
+    const { toggleWishlist, isInWishlist } = useCart();
+    const { customization } = useStoreContext();
+
+    const handleSectionClick = (e: React.MouseEvent) => {
+        if (typeof window !== "undefined" && window.parent !== window) {
+            e.stopPropagation();
+            window.parent.postMessage({ type: 'ORBIT_SECTION_CLICK', sectionId: 'dealsOfDay' }, '*');
+        }
+    };
+
+    const sectionTitle = customization?.dealsOfDay?.title || "Flash Deals";
+    const sectionSubtitle = customization?.dealsOfDay?.subtitle || "Hurry Up! Offers end soon.";
     const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
     const dealProducts = products.filter(p => p.originalPrice).slice(0, 4);
 
@@ -28,7 +40,7 @@ export default function DealsOfDay() {
     }, []);
 
     return (
-        <section className="py-20 bg-[#050505] relative overflow-hidden">
+        <section className="py-20 bg-[#050505] relative overflow-hidden cursor-pointer" onClick={handleSectionClick}>
             <div className="absolute top-1/2 left-0 w-full h-[300px] bg-red-900/5 -translate-y-1/2 blur-[100px] pointer-events-none"></div>
 
             <div className="container mx-auto px-4 relative z-10">
@@ -38,8 +50,8 @@ export default function DealsOfDay() {
                             <Zap className="w-7 h-7 text-white animate-pulse" />
                         </div>
                         <div>
-                            <h2 className="font-heading font-black text-3xl md:text-4xl text-white tracking-tight">Flash Deals</h2>
-                            <p className="text-red-400 font-medium">Hurry Up! Offers end soon.</p>
+                            <h2 className="font-heading font-black text-3xl md:text-4xl text-white tracking-tight">{sectionTitle}</h2>
+                            <p className="text-red-400 font-medium">{sectionSubtitle}</p>
                         </div>
                     </div>
 

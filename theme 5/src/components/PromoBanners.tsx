@@ -1,7 +1,17 @@
 import { Link } from "react-router-dom";
+import { useStoreContext } from "@/contexts/store-context";
 
 export default function PromoBanners() {
-    const banners = [
+    const { customization } = useStoreContext();
+
+    const handleSectionClick = (e: React.MouseEvent) => {
+        if (typeof window !== "undefined" && window.parent !== window) {
+            e.stopPropagation();
+            window.parent.postMessage({ type: 'ORBIT_SECTION_CLICK', sectionId: 'promoBanners' }, '*');
+        }
+    };
+
+    const defaultBanners = [
         {
             id: 1,
             tag: "Save up to 60% off",
@@ -28,8 +38,10 @@ export default function PromoBanners() {
         }
     ];
 
+    const banners = customization?.promoBanners?.banners || defaultBanners;
+
     return (
-        <section className="container mx-auto px-4 py-8">
+        <section className="container mx-auto px-4 py-8 cursor-pointer" onClick={handleSectionClick}>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {banners.map((banner) => (
                     <div
