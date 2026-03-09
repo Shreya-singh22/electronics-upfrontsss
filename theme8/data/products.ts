@@ -1,0 +1,256 @@
+export interface Product {
+  id: string;
+  name: string;
+  price: number;
+  originalPrice?: number;
+  image: string;
+  category: string;
+  brand: string;
+  rating: number;
+  reviewCount: number;
+  description: string;
+  specs: Record<string, string>;
+  images: string[];
+  inStock: boolean;
+  isFeatured?: boolean;
+  isNewArrival?: boolean;
+  isTrending?: boolean;
+}
+
+export interface Category {
+  id: string;
+  name: string;
+  icon: string;
+  count: number;
+}
+
+export interface CartItem {
+  product: Product;
+  quantity: number;
+}
+
+export const categories: Category[] = [
+  { id: "speakers", name: "Speakers", icon: "🔊", count: 24 },
+  { id: "laptops", name: "Laptops", icon: "💻", count: 18 },
+  { id: "headphones", name: "Headphones", icon: "🎧", count: 32 },
+  { id: "tablets", name: "Tablets", icon: "📱", count: 15 },
+  { id: "cameras", name: "Cameras", icon: "📷", count: 12 },
+  { id: "tv", name: "Android TV", icon: "📺", count: 9 },
+  { id: "mobiles", name: "Smart Mobiles", icon: "📲", count: 28 },
+  { id: "wearables", name: "Wearables", icon: "⌚", count: 20 },
+];
+
+export const products: Product[] = [
+  {
+    id: "1",
+    name: "ProSound Wireless Headphones",
+    price: 3999,
+    originalPrice: 5999,
+    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop",
+    category: "headphones",
+    brand: "Premium",
+    rating: 4.5,
+    reviewCount: 234,
+    description: "Experience crystal-clear audio with active noise cancellation and 30-hour battery life. Designed for comfort with premium memory foam ear cushions.",
+    specs: { "Driver Size": "40mm", "Battery": "30 hours", "Connectivity": "Bluetooth 5.3", "Weight": "250g", "ANC": "Yes", "Microphone": "Built-in" },
+    images: [
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&h=800&fit=crop",
+      "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=800&h=800&fit=crop",
+      "https://images.unsplash.com/photo-1524678606370-a47ad25cb82a?w=800&h=800&fit=crop",
+    ],
+    inStock: true,
+    isFeatured: true,
+    isTrending: true,
+  },
+  {
+    id: "2",
+    name: "UltraBook Pro 15",
+    price: 64999,
+    originalPrice: 79999,
+    image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=400&fit=crop",
+    category: "laptops",
+    brand: "Elite",
+    rating: 4.7,
+    reviewCount: 189,
+    description: "Powerful performance meets sleek design. Featuring the latest processor, 16GB RAM, and a stunning 15.6-inch Retina display.",
+    specs: { "Processor": "Intel i7-13th Gen", "RAM": "16GB DDR5", "Storage": "512GB SSD", "Display": "15.6\" FHD IPS", "Battery": "10 hours", "Weight": "1.8kg" },
+    images: [
+      "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800&h=800&fit=crop",
+      "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?w=800&h=800&fit=crop",
+    ],
+    inStock: true,
+    isFeatured: true,
+  },
+  {
+    id: "3",
+    name: "SmartWatch X200",
+    price: 12999,
+    originalPrice: 15999,
+    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop",
+    category: "wearables",
+    brand: "Smart",
+    rating: 4.3,
+    reviewCount: 456,
+    description: "Track your fitness goals with precision. Features heart rate monitoring, GPS, and a vibrant AMOLED display.",
+    specs: { "Display": "1.4\" AMOLED", "Battery": "7 days", "Water Resistance": "5 ATM", "Sensors": "HR, SpO2, GPS", "Connectivity": "BT 5.2, WiFi" },
+    images: ["https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&h=800&fit=crop"],
+    inStock: true,
+    isNewArrival: true,
+  },
+  {
+    id: "4",
+    name: "4K Action Camera",
+    price: 8499,
+    originalPrice: 10999,
+    image: "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=400&h=400&fit=crop",
+    category: "cameras",
+    brand: "Pro",
+    rating: 4.1,
+    reviewCount: 128,
+    description: "Capture every adventure in stunning 4K. Waterproof up to 30m with electronic image stabilization.",
+    specs: { "Resolution": "4K@60fps", "Sensor": "12MP CMOS", "Waterproof": "30m", "Battery": "90 min", "Stabilization": "EIS" },
+    images: ["https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=800&h=800&fit=crop"],
+    inStock: true,
+    isTrending: true,
+  },
+  {
+    id: "5",
+    name: "Portable Bluetooth Speaker",
+    price: 2499,
+    originalPrice: 3499,
+    image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&h=400&fit=crop",
+    category: "speakers",
+    brand: "Wireless",
+    rating: 4.4,
+    reviewCount: 567,
+    description: "Powerful 360° sound in a compact design. IPX7 waterproof with 20-hour battery life.",
+    specs: { "Power": "20W", "Battery": "20 hours", "Waterproof": "IPX7", "Connectivity": "BT 5.1", "Weight": "500g" },
+    images: ["https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=800&h=800&fit=crop"],
+    inStock: true,
+    isFeatured: true,
+    isNewArrival: true,
+  },
+  {
+    id: "6",
+    name: "ProTab 11 Tablet",
+    price: 24999,
+    originalPrice: 29999,
+    image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400&h=400&fit=crop",
+    category: "tablets",
+    brand: "Elite",
+    rating: 4.6,
+    reviewCount: 98,
+    description: "The perfect blend of productivity and entertainment. 11-inch Liquid Retina display with M1 chip.",
+    specs: { "Display": "11\" Liquid Retina", "Processor": "M1", "Storage": "128GB", "Battery": "10 hours", "Camera": "12MP" },
+    images: ["https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=800&h=800&fit=crop"],
+    inStock: true,
+    isNewArrival: true,
+  },
+  {
+    id: "7",
+    name: "Smart TV 55\" 4K",
+    price: 34999,
+    originalPrice: 44999,
+    image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=400&h=400&fit=crop",
+    category: "tv",
+    brand: "Premium",
+    rating: 4.5,
+    reviewCount: 312,
+    description: "Immersive 55-inch 4K HDR display with Dolby Atmos sound. Built-in Android TV with voice assistant.",
+    specs: { "Display": "55\" 4K HDR", "Sound": "Dolby Atmos 40W", "OS": "Android TV 13", "Ports": "3x HDMI, 2x USB", "Smart": "Google Assistant" },
+    images: ["https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=800&h=800&fit=crop"],
+    inStock: true,
+    isFeatured: true,
+    isTrending: true,
+  },
+  {
+    id: "8",
+    name: "Galaxy Phone Pro",
+    price: 29999,
+    originalPrice: 34999,
+    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&h=400&fit=crop",
+    category: "mobiles",
+    brand: "Smart",
+    rating: 4.4,
+    reviewCount: 678,
+    description: "Flagship performance with a stunning 6.7-inch AMOLED display, 108MP camera, and 5000mAh battery.",
+    specs: { "Display": "6.7\" AMOLED 120Hz", "Processor": "Snapdragon 8 Gen 2", "RAM": "8GB", "Storage": "256GB", "Camera": "108MP + 12MP + 5MP", "Battery": "5000mAh" },
+    images: ["https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&h=800&fit=crop"],
+    inStock: true,
+    isTrending: true,
+  },
+  {
+    id: "9",
+    name: "Noise Cancelling Earbuds",
+    price: 6999,
+    originalPrice: 8999,
+    image: "https://images.unsplash.com/photo-1590658268037-6bf12f032f55?w=400&h=400&fit=crop",
+    category: "headphones",
+    brand: "Wireless",
+    rating: 4.2,
+    reviewCount: 890,
+    description: "True wireless earbuds with hybrid ANC and spatial audio. 8-hour playtime with wireless charging case.",
+    specs: { "Driver": "11mm", "ANC": "Hybrid", "Battery": "8h + 24h case", "Connectivity": "BT 5.3", "Charging": "USB-C, Wireless" },
+    images: ["https://images.unsplash.com/photo-1590658268037-6bf12f032f55?w=800&h=800&fit=crop"],
+    inStock: true,
+    isNewArrival: true,
+  },
+  {
+    id: "10",
+    name: "Mechanical Gaming Keyboard",
+    price: 4999,
+    originalPrice: 6499,
+    image: "https://images.unsplash.com/photo-1541228271166-4e5fdd8f3e70?w=400&h=400&fit=crop",
+    category: "speakers",
+    brand: "Pro",
+    rating: 4.6,
+    reviewCount: 345,
+    description: "RGB mechanical keyboard with hot-swappable switches. N-key rollover and customizable macros.",
+    specs: { "Switches": "Mechanical (Hot-swap)", "Backlight": "RGB per-key", "Connection": "USB-C / Wireless", "Layout": "Full-size", "Anti-ghosting": "N-key rollover" },
+    images: ["https://images.unsplash.com/photo-1541228271166-4e5fdd8f3e70?w=800&h=800&fit=crop"],
+    inStock: true,
+  },
+  {
+    id: "11",
+    name: "Ultra Slim Laptop",
+    price: 45999,
+    originalPrice: 52999,
+    image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&h=400&fit=crop",
+    category: "laptops",
+    brand: "Premium",
+    rating: 4.8,
+    reviewCount: 156,
+    description: "Featherweight design at just 1.2kg with all-day battery. Perfect for professionals on the go.",
+    specs: { "Processor": "Apple M2", "RAM": "8GB", "Storage": "256GB SSD", "Display": "13.3\" Retina", "Battery": "18 hours", "Weight": "1.2kg" },
+    images: ["https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&h=800&fit=crop"],
+    inStock: true,
+    isFeatured: true,
+  },
+  {
+    id: "12",
+    name: "Fitness Band Plus",
+    price: 1999,
+    originalPrice: 2999,
+    image: "https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?w=400&h=400&fit=crop",
+    category: "wearables",
+    brand: "Smart",
+    rating: 3.9,
+    reviewCount: 1023,
+    description: "Affordable fitness tracking with heart rate monitor, step counter, and sleep tracking. 14-day battery.",
+    specs: { "Display": "1.1\" AMOLED", "Battery": "14 days", "Water Resistance": "5 ATM", "Sensors": "HR, SpO2", "Weight": "23g" },
+    images: ["https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?w=800&h=800&fit=crop"],
+    inStock: true,
+  },
+];
+
+export const brands = ["Premium", "Smart", "Wireless", "Pro", "Elite"];
+
+export const priceRanges = [
+  { label: "Under ₹4,000", min: 0, max: 4000 },
+  { label: "₹4,000 – ₹8,000", min: 4000, max: 8000 },
+  { label: "₹8,000 – ₹16,000", min: 8000, max: 16000 },
+  { label: "₹16,000 – ₹40,000", min: 16000, max: 40000 },
+  { label: "₹40,000+", min: 40000, max: Infinity },
+];
+
+export const ratingFilters = [4, 3, 2, 1];
