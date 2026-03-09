@@ -1,7 +1,6 @@
-"use client";
-
 import { Zap, Truck, Shield, Headphones } from "lucide-react";
 import Link from "next/link";
+import { useStoreContext } from "@/contexts/store-context";
 
 const features = [
   { icon: Truck, title: "Free Shipping", desc: "On orders above $150" },
@@ -11,8 +10,21 @@ const features = [
 ];
 
 export default function Footer() {
+  const { customization } = useStoreContext();
+
+  const handleSectionClick = (e: React.MouseEvent) => {
+    if (typeof window !== "undefined" && window.parent !== window) {
+      e.stopPropagation();
+      window.parent.postMessage({ type: 'ORBIT_SECTION_CLICK', sectionId: 'footer' }, '*');
+    }
+  };
+
+  const brandName = customization?.brand?.name || "SoundWave";
+  const brandDescription = customization?.brand?.description || "Your destination for the most advanced gadgets and electronics. We set the parallel of modern sound.";
+  const brandLogo = customization?.brand?.logo || "/logo.png";
+
   return (
-    <footer className="bg-black text-white pt-16 border-t border-white/5 relative overflow-hidden">
+    <footer onClick={handleSectionClick} className="bg-black text-white pt-16 border-t border-white/5 relative overflow-hidden cursor-pointer">
       <div className="absolute top-1/2 left-0 w-96 h-96 bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pb-16 border-b border-white/5">
@@ -34,15 +46,15 @@ export default function Footer() {
           <div className="space-y-6 lg:pr-8">
             <Link href="/" className="flex items-center gap-4 group">
               <div className="w-12 h-12 rounded-full overflow-hidden bg-primary flex items-center justify-center p-2 group-hover:scale-110 transition-transform">
-                <img src="/logo.png" alt="Logo" className="w-full h-full object-contain invert" />
+                <img src={brandLogo} alt={`${brandName} Logo`} className="w-full h-full object-contain invert" />
               </div>
               <div className="flex flex-col">
-                <span className="font-heading font-black text-2xl tracking-tighter text-primary uppercase whitespace-nowrap">SoundWave</span>
-                <span className="text-[10px] text-white/40 font-bold uppercase tracking-[0.4em] leading-none">Parallel sound</span>
+                <span className="font-heading font-black text-2xl tracking-tighter text-primary uppercase whitespace-nowrap">{brandName}</span>
+                <span className="text-[10px] text-white/40 font-bold uppercase tracking-[0.4em] leading-none">{customization?.brand?.tagline || "Parallel sound"}</span>
               </div>
             </Link>
             <p className="text-white/50 text-base leading-relaxed font-medium">
-              Your destination for the most advanced gadgets and electronics. We set the parallel of modern sound.
+              {brandDescription}
             </p>
           </div>
 
@@ -87,7 +99,7 @@ export default function Footer() {
 
       <div className="border-t border-white/5 bg-black">
         <div className="container mx-auto px-4 py-8 flex flex-col md:flex-row items-center justify-between gap-6">
-          <p className="text-sm text-white/30 font-semibold tracking-wide uppercase">© 2026 SoundWave. All rights reserved.</p>
+          <p className="text-sm text-white/30 font-semibold tracking-wide uppercase">© 2026 {brandName}. All rights reserved.</p>
           <div className="flex items-center gap-8">
             {["Visa", "Mastercard", "Paypal"].map((p) => (
               <span key={p} className="text-[10px] text-white/20 font-black tracking-[0.2em] uppercase hover:text-white/40 transition-colors cursor-default">{p}</span>

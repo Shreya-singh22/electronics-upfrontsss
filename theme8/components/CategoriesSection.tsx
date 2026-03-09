@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { categories as defaultCategories } from "@/data/products";
-import { useCustomizationContext } from "@/contexts/store-context";
+import { useStoreContext } from "@/contexts/store-context";
 
 const categoryImages: Record<string, string> = {
   speakers: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&h=400&fit=crop",
@@ -25,7 +25,7 @@ const categoryBackgrounds = [
 ];
 
 export default function CategoriesSection() {
-  const { customization } = useCustomizationContext();
+  const { customization } = useStoreContext();
 
   const categories = customization?.categoriesSection?.categories || defaultCategories.slice(0, 6);
 
@@ -38,7 +38,7 @@ export default function CategoriesSection() {
 
   return (
     <section
-      className="py-12 md:py-16 bg-background relative overflow-hidden"
+      className="py-12 md:py-16 bg-background relative overflow-hidden cursor-pointer"
       onClick={handleSectionClick}
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(212,255,0,0.03),transparent_50%)] pointer-events-none"></div>

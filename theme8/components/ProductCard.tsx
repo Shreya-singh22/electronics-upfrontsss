@@ -4,14 +4,14 @@ import { Star, Heart, ShoppingCart, Eye, TrendingUp } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Product } from "@/data/products";
-import { useStore } from "@/contexts/StoreContext";
+import { useCart } from "@/contexts/cart-context";
 
 interface ProductCardProps {
   product: Product;
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
-  const { addToCart, toggleWishlist, isInWishlist } = useStore();
+  const { addToCart, toggleWishlist, isInWishlist } = useCart();
   const discount = product.originalPrice
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
     : 0;
@@ -60,8 +60,8 @@ export default function ProductCard({ product }: ProductCardProps) {
               toggleWishlist(product.id);
             }}
             className={`w-10 h-10 rounded-full flex items-center justify-center transition-all border border-white/10 ${isInWishlist(product.id)
-                ? "bg-primary text-primary-foreground"
-                : "bg-black/60 text-white hover:bg-primary hover:text-primary-foreground"
+              ? "bg-primary text-primary-foreground"
+              : "bg-black/60 text-white hover:bg-primary hover:text-primary-foreground"
               }`}
           >
             <Heart className={`w-5 h-5 ${isInWishlist(product.id) ? "fill-current" : ""}`} />

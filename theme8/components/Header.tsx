@@ -4,16 +4,16 @@ import { useState, useEffect } from "react";
 import { Search, ShoppingCart, Heart, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useStore } from "@/contexts/StoreContext";
-import { useCustomizationContext } from "@/contexts/store-context";
+import { useCart } from "@/contexts/cart-context";
+import { useStoreContext } from "@/contexts/store-context";
 
 export default function Header() {
-  const { customization } = useCustomizationContext();
+  const { customization } = useStoreContext();
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const { cartCount, setIsCartOpen, wishlist } = useStore();
+  const { cartCount, setIsCartOpen, wishlist } = useCart();
   const router = useRouter();
 
   useEffect(() => {

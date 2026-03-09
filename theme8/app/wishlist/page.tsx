@@ -3,12 +3,12 @@
 
 import ProductCard from "@/components/ProductCard";
 import { products } from "@/data/products";
-import { useStore } from "@/contexts/StoreContext";
+import { useCart } from "@/contexts/cart-context";
 import { Heart } from "lucide-react";
 import Link from "next/link";
 
 export default function WishlistPage() {
-  const { wishlist } = useStore();
+  const { wishlist } = useCart();
   const wishlistProducts = products.filter((p) => wishlist.includes(p.id));
 
   return (

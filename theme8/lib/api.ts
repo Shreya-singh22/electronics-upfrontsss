@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from 'react';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/storefront/public';
@@ -29,7 +31,7 @@ class StorefrontAPI {
 }
 
 // React Hook used to pull and auto-update data
-export function useStoreCustomization() {
+export function useStore() {
     const [customization, setCustomization] = useState<any>(null);
 
     // 1. Fetch initial live data on load

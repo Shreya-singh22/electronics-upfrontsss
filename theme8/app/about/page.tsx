@@ -1,3 +1,4 @@
+"use client";
 
 import TrustBadges from "@/components/TrustBadges";
 import { Cpu, Zap, Shield, Users, Award, Target } from "lucide-react";

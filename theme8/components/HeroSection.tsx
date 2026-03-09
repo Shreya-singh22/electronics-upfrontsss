@@ -4,10 +4,10 @@ import { useState, useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { useCustomizationContext } from "@/contexts/store-context";
+import { useStoreContext } from "@/contexts/store-context";
 
 export default function HeroSection() {
-  const { customization } = useCustomizationContext();
+  const { customization } = useStoreContext();
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -53,13 +53,26 @@ export default function HeroSection() {
             className="flex-1 max-w-2xl text-center lg:text-left"
           >
             <h1 className="font-heading font-black text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-white leading-[1.1] mb-8 tracking-tight">
-              Immerse yourself <br />
-              <span className="text-white">in a </span>
-              <span className="brand-gradient-text">symphony</span>
+              {customization?.heroSection?.title ? (
+                <>
+                  {customization.heroSection.title.split(' ').map((word: string, i: number, arr: string[]) => (
+                    <span key={i} className={i === arr.length - 1 ? "brand-gradient-text" : "text-white"}>
+                      {word}{' '}
+                      {i === 1 && <br />}
+                    </span>
+                  ))}
+                </>
+              ) : (
+                <>
+                  Immerse yourself <br />
+                  <span className="text-white">in a </span>
+                  <span className="brand-gradient-text">symphony</span>
+                </>
+              )}
             </h1>
 
             <p className="text-white/60 text-lg md:text-xl mb-10 max-w-lg mx-auto lg:mx-0 leading-relaxed font-medium">
-              Welcome to SoundWave, the parallel of music and sound. Find the best audio gadget for all of your needs.
+              {customization?.heroSection?.description || "Welcome to SoundWave, the parallel of music and sound. Find the best audio gadget for all of your needs."}
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6">
@@ -67,7 +80,7 @@ export default function HeroSection() {
                 href="/products"
                 className="inline-flex items-center justify-center h-14 px-10 rounded-full bg-primary text-black font-bold text-lg hover:scale-105 transition-all shadow-[0_0_20px_rgba(212,255,0,0.3)] hover:shadow-[0_0_40px_rgba(212,255,0,0.6)] group relative overflow-hidden"
               >
-                <span className="relative z-10">Shop Now</span>
+                <span className="relative z-10">{customization?.heroSection?.primaryButtonText || "Shop Now"}</span>
                 <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
               </Link>
 
